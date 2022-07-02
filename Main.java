@@ -1,5 +1,8 @@
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Wordle!");
+        IO io = new IO();
+        io.print("Wordle!");
+        String word = io.requestWord();
+        io.print(word);
     }
 }
