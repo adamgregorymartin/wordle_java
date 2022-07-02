@@ -2,14 +2,20 @@ public class Main {
     public static void main(String[] args) {
         IO io = new IO();
         io.print("Wordle!");
-        Word word = io.requestWord();
-        io.print(word.toString());
+
+        Word solution = new Word("apple");
+
+        Word guess = io.requestWord();
+
+        ClueBuilder clueBuilder = new ClueBuilder();
+        Clue clue = new Clue();
+        clueBuilder.initSolution(solution);
+        clueBuilder.buildClue(guess, clue);
+
+        io.print(clue.toString());
 
         /*
          * Add classes:
-         * - Word
-         * - Feedback
-         * - FeedbackBuilder
          * - Player
          * - Game
          * - WordManager?
