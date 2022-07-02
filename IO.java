@@ -7,19 +7,12 @@ class IO {
         System.out.println(string);
     }
 
-    public String requestWord() {
+    public Word requestWord() {
         while (true) {
-            String word = System.console().readLine();
-            word = word.toLowerCase().trim();
-            boolean allLetters = true;
-            for (int i = 0; i < word.length(); ++i) {
-                if (!Character.isLetter(word.charAt(i))) {
-                    allLetters = false;
-                    break;
-                }
-            }
-            if (allLetters && word.length() == 5) {
-                return word;
+            String input = System.console().readLine();
+            input = input.toLowerCase().trim();
+            if (Word.isValid(input)) {
+                return new Word(input);
             }
         }
     }
