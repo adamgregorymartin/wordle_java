@@ -1,10 +1,9 @@
 class ClueBuilder {
-    private byte[] solutionCount;
+    private byte[] solutionCount = new byte[Word.N_LETTERS];
     private Word solution;
 
-    public ClueBuilder() {
-        solutionCount = new byte[Word.N_LETTERS]; // initialized to 0
-    }
+    byte[] changes = new byte[Word.LENGTH];
+    byte nChanges = 0;
 
     private void resetSolution() {
         if (solution == null)
@@ -21,31 +20,36 @@ class ClueBuilder {
             ++solutionCount[solution.letterAt(i)];
     }
 
-    public void buildClue(Word guess, Clue clue) {
+    public void buildClue(Clue clue, Word guess) {
         // solution != null
 
-        // clue.reset()
+        clue.resetClue();
 
         for (byte i = 0; i < Word.LENGTH; ++i) {
             byte letter = guess.letterAt(i);
             if (letter == solution.letterAt(i)) {
                 clue.addCorrectLetter(i, letter);
                 --solutionCount[letter];
+                changes[nChanges++] = letter;
             }
         }
 
         for (byte i = 0; i < Word.LENGTH; ++i) {
-            if (!clue.isCorrectAt(i)) {
-                byte letter = guess.letterAt(i);
+            byte letter = guess.letterAt(i);
+            if (letter != solution.letterAt(i)) {
                 if (solutionCount[letter] > 0) {
                     clue.addMisplacedLetter(i, letter);
                     --solutionCount[letter];
+                    changes[nChanges++] = letter;
                 } else {
-                    clue.setCountMax(letter);
+                    clue.setLetterMax(letter);
                 }
             }
         }
 
-        // reset ClueBuilder
+        for (byte i = 0; i < nChanges; ++i) {
+            ++solutionCount[changes[i]];
+        }
+        nChanges = 0;
     }
 }

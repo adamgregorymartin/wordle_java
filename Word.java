@@ -29,9 +29,8 @@ class Word {
     public Word(String string) {
         // isValid(string) == true
 
-        for (byte i = 0; i < LENGTH; ++i) {
+        for (byte i = 0; i < LENGTH; ++i)
             letters[i] = (byte) (string.charAt(i) - 'a');
-        }
     }
 
     public byte letterAt(byte index) {
@@ -44,7 +43,9 @@ class Word {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (byte i = 0; i < LENGTH; ++i) {
-            sb.append((char) (letters[i] + 'a'));
+            if (i > 0)
+                sb.append(' ');
+            sb.append((char) (letters[i] + 'A'));
         }
         return sb.toString();
     }

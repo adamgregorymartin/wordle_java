@@ -4,21 +4,22 @@ public class Main {
         io.print("Wordle!");
 
         Word solution = new Word("apple");
-
-        Word guess = io.requestWord();
-
         ClueBuilder clueBuilder = new ClueBuilder();
-        Clue clue = new Clue();
         clueBuilder.initSolution(solution);
-        clueBuilder.buildClue(guess, clue);
+        Clue clue = new Clue();
 
-        io.print(clue.toString());
+        byte rounds = 0;
+        while (!clue.isCorrect()) {
+            ++rounds;
+            io.print(String.format("\nTurn %d:", rounds));
+            Word guess = io.requestWord();
 
-        /*
-         * Add classes:
-         * - Player
-         * - Game
-         * - WordManager?
-         */
+            clueBuilder.buildClue(clue, guess);
+
+            io.print(guess.toString());
+            io.print(clue.toString());
+        }
+
+        io.print(String.format("Solved in %d turns", rounds));
     }
 }

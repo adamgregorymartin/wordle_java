@@ -8,6 +8,7 @@ class IO {
     }
 
     public Word requestWord() {
+        System.out.print("Guess: ");
         while (true) {
             String input = System.console().readLine();
             input = input.toLowerCase().trim();
