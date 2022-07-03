@@ -1,4 +1,4 @@
-class Word {
+class Word implements Comparable<Word> {
     /*
      * Represents a Wordle word
      * Letters are stored as their lowercase index. ('a' -> 0)
@@ -18,8 +18,7 @@ class Word {
             if (!Character.isLetter(string.charAt(i)))
                 return false;
         }
-        // TODO check if string is in the list of valid words
-        return true;
+        return Words.contains(new Word(string));
     }
 
     // Instance variables & methods
@@ -37,6 +36,19 @@ class Word {
         // 0 <= index < LENGTH
 
         return letters[index];
+    }
+
+    @Override
+    public int compareTo(Word otherWord) {
+        for (byte i = 0; i < LENGTH; ++i) {
+            byte thisLetter = this.letters[i];
+            byte otherLetter = otherWord.letters[i];
+            if (thisLetter < otherLetter)
+                return -1;
+            else if (thisLetter > otherLetter)
+                return 1;
+        }
+        return 0;
     }
 
     @Override
