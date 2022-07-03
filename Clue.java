@@ -1,5 +1,28 @@
 class Clue {
+    /*
+     * Stores the information from a guess and feedback string
+     */
+
+    // class variables and methods
+
     private static final byte INDEX = 0, LETTER = 1;
+    private static final char CORRECT = 'g', MISPLACED = 'y', INCORRECT = '_';
+
+    public static boolean isValidFeedback(String feedback) {
+        // feedback is lowercase and trimmed
+
+        if (feedback.length() != Word.LENGTH)
+            return false;
+
+        for (byte i = 0; i < Word.LENGTH; ++i) {
+            char c = feedback.charAt(i);
+            if (c != INCORRECT && c != MISPLACED && c != CORRECT)
+                return false;
+        }
+        return true;
+    }
+
+    // instance variables and methods
 
     private byte[][] correct = new byte[Word.LENGTH][2]; // index, letter
     private byte[][] misplaced = new byte[Word.LENGTH][2];
@@ -16,6 +39,25 @@ class Clue {
         // countMin initialized to 0
         for (byte i = 0; i < Word.N_LETTERS; ++i)
             countMax[i] = Word.LENGTH;
+    }
+
+    public void buildClue(Word guess, String feedback) {
+        /*
+         * Configures a clue object from a guess word and feedback string
+         * isValidFeedback(feedback) == true
+         */
+
+        resetClue();
+
+        for (byte i = 0; i < Word.LENGTH; ++i) {
+            byte letter = guess.letterAt(i);
+            if (feedback.charAt(i) == CORRECT)
+                addCorrectLetter(i, letter);
+            else if (feedback.charAt(i) == MISPLACED)
+                addMisplacedLetter(i, letter);
+            else
+                setLetterMax(letter);
+        }
     }
 
     public void resetClue() {
@@ -89,13 +131,13 @@ class Clue {
     public String toString() {
         String[] chars = new String[Word.LENGTH];
         for (byte i = 0; i < Word.LENGTH; ++i)
-            chars[i] = "_";
+            chars[i] = Character.toString(INCORRECT);
 
         for (byte i = 0; i < nCorrect; ++i)
-            chars[correct[i][INDEX]] = "G";
+            chars[correct[i][INDEX]] = Character.toString(Character.toUpperCase(CORRECT));
 
         for (byte i = 0; i < nMisplaced; ++i)
-            chars[misplaced[i][INDEX]] = "Y";
+            chars[misplaced[i][INDEX]] = Character.toString(Character.toUpperCase(MISPLACED));
 
         return String.join(" ", chars);
     }

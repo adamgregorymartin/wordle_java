@@ -1,4 +1,8 @@
 class ClueBuilder {
+    /*
+     * Configures a Clue object from solution and guess words.
+     */
+
     private byte[] solutionCount = new byte[Word.N_LETTERS];
     private Word solution;
 

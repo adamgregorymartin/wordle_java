@@ -1,6 +1,6 @@
 class Word {
     /*
-     * This class represents a Wordle word.
+     * Represents a Wordle word
      * Letters are stored as their lowercase index. ('a' -> 0)
      */
 
