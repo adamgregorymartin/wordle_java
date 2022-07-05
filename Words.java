@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.HashSet;
+import java.util.List;
+import java.util.ArrayList;
 
 class Words {
     /*
@@ -31,11 +31,20 @@ class Words {
             weights[i] = 1.0; // / N_WORDS; // replace with log normal probability
     }
 
-    public static Set<Short> getAllIndices() {
-        Set<Short> indices = new HashSet<>();
+    public static List<Short> getAllIndices() {
+        List<Short> indices = new ArrayList<>();
         for (short i = 0; i < N_WORDS; ++i)
             indices.add(i);
-        
+
+        return indices;
+    }
+
+    public static List<Short> getConsistentIndices(List<Short> prevIndices, Clue clue) {
+        List<Short> indices = new ArrayList<>();
+        for (short i : prevIndices) {
+            if (clue.isConsistentWith(at(i)))
+                indices.add(i);
+        }
         return indices;
     }
 

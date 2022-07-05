@@ -32,9 +32,6 @@ class Clue {
     private byte[] lettersWithMax = new byte[Word.LENGTH];
     private byte nCorrect = 0, nMisplaced = 0, nLettersWithMax = 0;
 
-    private byte[] changes = new byte[Word.LENGTH];
-    private byte nChanges = 0;
-
     public Clue() {
         // countMin initialized to 0
         for (byte i = 0; i < Word.N_LETTERS; ++i)
@@ -98,32 +95,20 @@ class Clue {
         return nCorrect == Word.LENGTH;
     }
 
-    private void resetComparison() {
-        for (byte i = 0; i < nChanges; ++i)
-            ++countMax[changes[i]];
-
-        nChanges = 0;
-    }
-
     public boolean isConsistentWith(Word word) {
         for (byte i = 0; i < nCorrect; ++i) {
             if (word.letterAt(correct[i][INDEX]) != correct[i][LETTER])
                 return false;
         }
         for (byte i = 0; i < nMisplaced; ++i) {
-            if (word.letterAt(misplaced[i][INDEX]) == misplaced[i][LETTER])
+            byte letter = misplaced[i][LETTER];
+            if (word.letterAt(misplaced[i][INDEX]) == letter || word.letterCount(letter) < countMin[letter])
                 return false;
         }
-        for (byte i = 0; i < Word.LENGTH; ++i) {
-            byte letter = word.letterAt(i);
-            --countMax[letter];
-            changes[nChanges++] = letter;
-            if (countMax[letter] < countMin[letter]) {
-                resetComparison();
+        for (byte i = 0; i < nLettersWithMax; ++i) {
+            if (word.letterCount(lettersWithMax[i]) > countMax[lettersWithMax[i]])
                 return false;
-            }
         }
-        resetComparison();
         return true;
     }
 

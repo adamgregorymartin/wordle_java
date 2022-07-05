@@ -10,8 +10,6 @@ class Word implements Comparable<Word> {
     public static final byte N_LETTERS = 26;
     public static final byte MAX_LETTER_COUNT = 3; // maximum times the same letter occurs in any word
 
-    private static byte[] counter = new byte[N_LETTERS];
-
     public static boolean isValid(String string) {
         // string is trimmed and lowercase
 
@@ -27,10 +25,11 @@ class Word implements Comparable<Word> {
     // Instance variables & methods
 
     private byte[] letters = new byte[LENGTH];
-    private byte[] occurances = new byte[LENGTH];
+    private byte[] counts = new byte[N_LETTERS];
+    private byte[] occurrences = new byte[LENGTH];
     /*
-     * occurances[i] = occurence index of letter up to and including position i
-     * e.g. "abcde" -> {0, 0, 0, 0, 0}; "aaaaa" -> {0, 1, 2, 3, 4}
+     * occurrences = occurence index of letter up to and including current position
+     * e.g. "abbcd" -> {0, 0, 1, 0, 0}
      */
 
     public Word(String string) {
@@ -39,12 +38,9 @@ class Word implements Comparable<Word> {
         for (byte i = 0; i < LENGTH; ++i) {
             byte letter = (byte) (string.charAt(i) - 'a');
             letters[i] = letter;
-            occurances[i] = counter[letter];
-            ++counter[letter];
+            occurrences[i] = counts[letter];
+            ++counts[letter];
         }
-
-        for (byte i = 0; i < LENGTH; ++i)
-            counter[letters[i]] = 0;
     }
 
     public byte letterAt(byte index) {
@@ -53,14 +49,22 @@ class Word implements Comparable<Word> {
         return letters[index];
     }
 
-    public byte letterOccuranceAt(byte index) {
+    public byte letterCount(byte letter) {
+        // 0 <= index < N_LETTERS
+
+        return counts[letter];
+    }
+
+    public byte letterOccurrenceAt(byte index) {
         // 0 <= index < LENGTH
 
-        return occurances[index];
+        return occurrences[index];
     }
 
     @Override
     public int compareTo(Word otherWord) {
+        // alphabetical comparison
+
         for (byte i = 0; i < LENGTH; ++i) {
             byte thisLetter = this.letters[i];
             byte otherLetter = otherWord.letters[i];

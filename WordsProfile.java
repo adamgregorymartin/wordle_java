@@ -1,18 +1,18 @@
-import java.util.Set;
+import java.util.List;
 
 class WordsProfile {
 
     private double[][] positions = new double[Word.LENGTH][Word.N_LETTERS];
-    private double[][] occurances = new double[Word.N_LETTERS][Word.MAX_LETTER_COUNT];
+    private double[][] occurrences = new double[Word.N_LETTERS][Word.MAX_LETTER_COUNT];
 
-    public WordsProfile(Set<Short> wordIndices) {
+    public WordsProfile(List<Short> wordIndices) {
         for (short wordIndex : wordIndices) {
             Word word = Words.at(wordIndex);
             double weight = Words.weightOf(wordIndex);
             for (byte i = 0; i < Word.LENGTH; ++i) {
                 byte letter = word.letterAt(i);
                 positions[i][letter] += weight;
-                occurances[letter][word.letterOccuranceAt(i)] += weight;
+                occurrences[letter][word.letterOccurrenceAt(i)] += weight;
             }
         }
     }
@@ -27,13 +27,13 @@ class WordsProfile {
         return positions[position][letter];
     }
 
-    public double getLetterOccuranceWeight(byte letter, byte occurance) {
+    public double getLetterOccurrenceWeight(byte letter, byte occurrence) {
         /*
          * sum of weights of words with letter occurring at least occurance times
          * 0 <= letter < Word.N_LETTERS
          * 0 <= count < Word.LENGTH
          */
 
-        return occurances[letter][occurance];
+        return occurrences[letter][occurrence];
     }
 }
