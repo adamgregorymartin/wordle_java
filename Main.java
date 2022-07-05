@@ -1,12 +1,10 @@
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
         IO io = new IO();
         io.print("Wordle!");
 
         // Play with a hard coded solution
-        Word solution = new Word("humph");
+        Word solution = new Word("awake");
         ClueBuilder clueBuilder = new ClueBuilder();
         clueBuilder.init(solution);
 

@@ -10,16 +10,20 @@ class Word implements Comparable<Word> {
     public static final byte N_LETTERS = 26;
     public static final byte MAX_LETTER_COUNT = 3; // maximum times the same letter occurs in any word
 
-    public static boolean isValid(String string) {
-        // string is trimmed and lowercase
+    public static Word valueOf(String string) {
+        /*
+         * string is trimmed and lowercase
+         * return null if string does not represent a valid word
+         */
 
         if (string.length() != LENGTH)
-            return false;
+            return null;
         for (byte i = 0; i < LENGTH; ++i) {
             if (!Character.isLetter(string.charAt(i)))
-                return false;
+                return null;
         }
-        return Words.contains(new Word(string));
+        Word word = new Word(string);
+        return Words.contains(word) ? word : null;
     }
 
     // Instance variables & methods

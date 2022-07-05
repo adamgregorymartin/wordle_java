@@ -12,9 +12,9 @@ class IO {
         while (true) {
             String input = System.console().readLine();
             input = input.toLowerCase().trim();
-            if (Word.isValid(input)) {
-                return new Word(input);
-            }
+            Word guess = Word.valueOf(input);
+            if (guess != null)
+                return guess;
         }
     }
 
