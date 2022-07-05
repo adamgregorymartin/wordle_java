@@ -6,14 +6,14 @@ public class Main {
         io.print("Wordle!");
 
         // Play with a hard coded solution
-        Word solution = new Word("cigar");
+        Word solution = new Word("humph");
         ClueBuilder clueBuilder = new ClueBuilder();
-        clueBuilder.initSolution(solution);
+        clueBuilder.init(solution);
 
         Clue clue = new Clue();
 
         int nGuesses = 0;
-        Guesser guesser = new RandomGuesser();
+        Guesser guesser = new ProfileGuesser();
 
         while (!clue.isCorrect()) {
             ++nGuesses;
@@ -36,11 +36,12 @@ public class Main {
 
         /*
          * rewrite Word.isValid to Word.tryMakingWord
-         * Guesser based on WordsProfile
-         * Guesser based on brute force
-         * Change words weight to log normal probability
+         * 
+         * ProfileGuesser
+         * TreeGuesser
          * Add multi threading
-         * Allow Clue to target select indices?
+         * Change word weights to log normal probabilities
+         * HybridGuesser -> Variable breath & depth tree search based on WordsProfile
          */
     }
 }

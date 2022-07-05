@@ -38,13 +38,13 @@ class Clue {
             countMax[i] = Word.LENGTH;
     }
 
-    public void buildClue(Word guess, String feedback) {
+    public void build(Word guess, String feedback) {
         /*
          * Configures a clue object from a guess word and feedback string
          * isValidFeedback(feedback) == true
          */
 
-        resetClue();
+        reset();
 
         for (byte i = 0; i < Word.LENGTH; ++i) {
             byte letter = guess.letterAt(i);
@@ -57,7 +57,7 @@ class Clue {
         }
     }
 
-    public void resetClue() {
+    public void reset() {
         for (byte i = 0; i < nCorrect; ++i)
             countMin[correct[i][LETTER]] = 0;
 
@@ -102,11 +102,11 @@ class Clue {
         }
         for (byte i = 0; i < nMisplaced; ++i) {
             byte letter = misplaced[i][LETTER];
-            if (word.letterAt(misplaced[i][INDEX]) == letter || word.letterCount(letter) < countMin[letter])
+            if (word.letterAt(misplaced[i][INDEX]) == letter || word.countOf(letter) < countMin[letter])
                 return false;
         }
         for (byte i = 0; i < nLettersWithMax; ++i) {
-            if (word.letterCount(lettersWithMax[i]) > countMax[lettersWithMax[i]])
+            if (word.countOf(lettersWithMax[i]) > countMax[lettersWithMax[i]])
                 return false;
         }
         return true;

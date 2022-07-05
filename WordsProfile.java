@@ -17,23 +17,16 @@ class WordsProfile {
         }
     }
 
-    public double getLetterPositionWeight(byte position, byte letter) {
-        /*
-         * sum of weights of words with letter at position
-         * 0 <= position < Word.LENGTH
-         * 0 <= letter < Word.N_LETTERS
-         */
+    public double scoreWord(Word word) {
+        final double POSITION_WEIGHT = 1.0;
+        final double OCCURRENCE_WEIGHT = 1.0;
 
-        return positions[position][letter];
-    }
-
-    public double getLetterOccurrenceWeight(byte letter, byte occurrence) {
-        /*
-         * sum of weights of words with letter occurring at least occurance times
-         * 0 <= letter < Word.N_LETTERS
-         * 0 <= count < Word.LENGTH
-         */
-
-        return occurrences[letter][occurrence];
+        double score = 0.0;
+        for (byte i = 0; i < Word.LENGTH; ++i) {
+            byte letter = word.letterAt(i);
+            score += POSITION_WEIGHT * positions[i][letter];
+            score += OCCURRENCE_WEIGHT * occurrences[letter][word.letterOccurrenceAt(i)];
+        }
+        return score;
     }
 }

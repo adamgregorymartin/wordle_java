@@ -49,7 +49,7 @@ class Word implements Comparable<Word> {
         return letters[index];
     }
 
-    public byte letterCount(byte letter) {
+    public byte countOf(byte letter) {
         // 0 <= index < N_LETTERS
 
         return counts[letter];
