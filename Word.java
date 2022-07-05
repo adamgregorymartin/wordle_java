@@ -6,8 +6,11 @@ class Word implements Comparable<Word> {
 
     // Class variables & methods
 
-    public final static byte LENGTH = 5;
-    public final static byte N_LETTERS = 26;
+    public static final byte LENGTH = 5;
+    public static final byte N_LETTERS = 26;
+    public static final byte MAX_LETTER_COUNT = 3; // maximum times the same letter occurs in any word
+
+    private static byte[] counter = new byte[N_LETTERS];
 
     public static boolean isValid(String string) {
         // string is trimmed and lowercase
@@ -24,18 +27,36 @@ class Word implements Comparable<Word> {
     // Instance variables & methods
 
     private byte[] letters = new byte[LENGTH];
+    private byte[] occurances = new byte[LENGTH];
+    /*
+     * occurances[i] = occurence index of letter up to and including position i
+     * e.g. "abcde" -> {0, 0, 0, 0, 0}; "aaaaa" -> {0, 1, 2, 3, 4}
+     */
 
     public Word(String string) {
         // isValid(string) == true
 
+        for (byte i = 0; i < LENGTH; ++i) {
+            byte letter = (byte) (string.charAt(i) - 'a');
+            letters[i] = letter;
+            occurances[i] = counter[letter];
+            ++counter[letter];
+        }
+
         for (byte i = 0; i < LENGTH; ++i)
-            letters[i] = (byte) (string.charAt(i) - 'a');
+            counter[letters[i]] = 0;
     }
 
     public byte letterAt(byte index) {
         // 0 <= index < LENGTH
 
         return letters[index];
+    }
+
+    public byte letterOccuranceAt(byte index) {
+        // 0 <= index < LENGTH
+
+        return occurances[index];
     }
 
     @Override

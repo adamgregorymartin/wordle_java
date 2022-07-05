@@ -1,17 +1,24 @@
+import java.util.Set;
+import java.util.HashSet;
+
 public class Main {
     public static void main(String[] args) {
         IO io = new IO();
         io.print("Wordle!");
 
-        Clue clue = new Clue();
+        Set<Short> allIndices = Words.getAllIndices();
 
-        while (!clue.isCorrect()) {
-            Word guess = io.requestGuess();
-            String feedback = io.requestFeedback();
-            clue.buildClue(guess, feedback);
+        WordsProfile profile = new WordsProfile(allIndices);
 
-            io.print(clue.toString());
-        }
+        /*
+         * Clue clue = new Clue();
+         * 
+         * while (!clue.isCorrect()) {
+         * Word guess = io.requestGuess();
+         * String feedback = io.requestFeedback();
+         * clue.buildClue(guess, feedback);
+         * }
+         */
 
         /*
          * // Play with a hard coded solution
@@ -36,7 +43,6 @@ public class Main {
          */
 
         /*
-         * Read list of valid words
          * Create basic AI algorithm
          * Optimize Clue to target select indices
          * Add brute force
